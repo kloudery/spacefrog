@@ -459,29 +459,8 @@ font-size: 16px;
 	outline:0;
 }
 
-.navbar-side {
-	border:none;
-	background-color: #fff;
-	
-}
-.navbar-inverse {
-
-background-color: #214761;
-border-color: #F0F0F0;
-min-height: 150px;
-
-}
-
-.navbar-inverse  img {
-    max-height:100px;
-}
-.navbar-brand {
-    line-height: 2em;
-    vertical-align: middle;
-}
-
-.navbar-brand span {
-    font-size:2em;
+.navbar-header {
+    padding:10px;
 }
 
 .nav > li > a > i {
