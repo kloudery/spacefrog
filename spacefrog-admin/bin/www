@@ -6,11 +6,17 @@
 
 var app = require('../app');
 var debug = require('debug')('spacefrog-admin:server');
-var http = require('https');
+var http = require('http'); //needs to be https
 
 /**
  * Get port from environment and store in Express.
  */
+const options = {
+  key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+  cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+};
+
+
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -19,6 +25,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+//add OPTIONS here once we have cert
+// http.createServer(options, app);
 var server = http.createServer(app);
 
 /**
