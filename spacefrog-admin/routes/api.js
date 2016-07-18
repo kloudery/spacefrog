@@ -5,6 +5,8 @@ var prices = require('../configs/options.json');
 
 /* GET price. */
 router.get('/v1/pricing/:product', function(req, res, next) {
+    res.header('Content-type', 'application/json');
+
     var priceObject = {
         "description":"",
         "price":0,
@@ -13,16 +15,15 @@ router.get('/v1/pricing/:product', function(req, res, next) {
     };
 
     var product = req.params.product;
+
     if(product && prices[product]) {
-        priceObject.title = prices[product].title;
-        priceObject.price = prices[product].price;
-        if(prices[product].description) {
-            priceObject.description = prices[product].description;
-        }
+        res.status(200);
+        res.send(JSON.stringify(prices[product]));
+    } else {
+        res.status(500);
+        res.send('{"error":"product not found"}');
     }
-    res.status(200);
-    res.header('Content-type', 'application/json');
-    res.send(JSON.stringify(priceObject));
+
 });
 
 module.exports = router;
