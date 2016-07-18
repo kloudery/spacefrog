@@ -24,8 +24,10 @@ router.get('/v1/purchase/:product', function(req, res, next) {
 
 /* GET price. */
 router.get('/v1/pricing/:product', function(req, res, next) {
-
+<<<<<<< HEAD
+=======
     res.header('Content-type', 'application/json');
+>>>>>>> 16a6a247a7ca1ddddccc3f3288f6b5348e2d3a14
 
     var priceObject = {
         "description": "",
@@ -35,13 +37,22 @@ router.get('/v1/pricing/:product', function(req, res, next) {
     };
 
     var product = req.params.product;
-
+<<<<<<< HEAD
     if (product && prices[product]) {
+        priceObject.title = prices[product].title;
+        priceObject.price = prices[product].price;
+        if (prices[product].description) {
+            priceObject.description = prices[product].description;
+        }
+=======
+
+    if(product && prices[product]) {
         res.status(200);
         res.send(JSON.stringify(prices[product]));
     } else {
         res.status(500);
         res.send('{"error":"product not found"}');
+>>>>>>> 16a6a247a7ca1ddddccc3f3288f6b5348e2d3a14
     }
 
 });

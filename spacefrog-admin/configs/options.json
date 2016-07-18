@@ -4,16 +4,19 @@
     "price":6,
     "options":{
       "mailchimp":{
+        "name": "Maichimp integration",
         "type":"boolean",
         "price":0,
         "default":true
       },
       "SEO":{
+        "name": "SEO enhancer plugin",
         "type":"boolean",
         "price":0,
         "default":true
       },
       "contact-form":{
+        "name": "Contact form plugin",
         "type":"boolean",
         "price":0,
         "default":true
@@ -32,6 +35,7 @@
     "price":3,
     "options":{
       "RAM":{
+        "name":"RAM",
         "type":"set",
         "default":"256",
         "set": {
