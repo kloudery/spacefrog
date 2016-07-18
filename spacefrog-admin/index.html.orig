@@ -625,6 +625,7 @@
     </script>
     <script src="assets/js/jquery.bootstrap.wizard.min.js" type="text/javascript" />
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<<<<<<< HEAD
     <script type="text/javascript">
     Stripe.setPublishableKey('pk_test_4MT0GF18tCIve3NiwrXEhIvK');
     $(function() {
@@ -664,6 +665,8 @@
         };
     });
     </script>
+=======
+>>>>>>> 17718404141e55cbb3fd5f9bcfb1fad2fa824690
 </body>
 
 </html>
