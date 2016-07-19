@@ -19,6 +19,8 @@ router.get('/v1/purchase/:product', function(req, res, next) {
 
     res.status(200);
     res.header('Content-type', 'application/json');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
     res.send(JSON.stringify(charge));
 });
 
