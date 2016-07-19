@@ -40,6 +40,9 @@ router.get('/v1/pricing/:product', function(req, res, next) {
 
     if (product && prices[product]) {
         res.status(200);
+        res.header('Content-type', 'application/json');
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
         res.send(JSON.stringify(prices[product]));
     } else {
         res.status(500);

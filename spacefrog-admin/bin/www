@@ -11,10 +11,10 @@ var http = require('http'); //needs to be https
 /**
  * Get port from environment and store in Express.
  */
-const options = {
-  key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
-  cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
-};
+// const options = {
+//   key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+//   cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
+// };
 
 
 
