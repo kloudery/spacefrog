@@ -33,5 +33,11 @@ jspm_packages
 # Optional npm cache directory
 .npm
 
+#OS fils
+.DS_Store
+
+#Intellij
+.idea
+
 # Optional REPL history
 .node_repl_history
