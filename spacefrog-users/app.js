@@ -132,7 +132,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  * API examples routes.
  */
 app.get('/api', apiController.getApi);
-
+app.get('/api/v1/pricing/:product', apiController.getPrice);
+app.get('/api/v1/purchase/:product', apiController.getProduct);
 app.get('/api/stripe', apiController.getStripe);
 app.post('/api/stripe', apiController.postStripe);
 app.get('/api/clockwork', apiController.getClockwork);

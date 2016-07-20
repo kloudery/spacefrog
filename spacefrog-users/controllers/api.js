@@ -9,21 +9,18 @@ const LastFmNode = require('lastfm').LastFmNode;
 const tumblr = require('tumblr.js');
 const Github = require('github-api');
 const Twit = require('twit');
-const stripe = require('stripe')(process.env.STRIPE_SKEY);
+//const stripe = require('stripe')(process.env.STRIPE_SKEY);
 const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 const Linkedin = require('node-linkedin')(process.env.LINKEDIN_ID, process.env.LINKEDIN_SECRET, process.env.LINKEDIN_CALLBACK_URL);
 const clockwork = require('clockwork')({ key: process.env.CLOCKWORK_KEY });
 const paypal = require('paypal-rest-sdk');
 const lob = require('lob')(process.env.LOB_KEY);
 const ig = require('instagram-node').instagram();
-const Y = require('yui/yql');
-const foursquare = require('node-foursquare')({
-  secrets: {
-    clientId: process.env.FOURSQUARE_ID,
-    clientSecret: process.env.FOURSQUARE_SECRET,
-    redirectUrl: process.env.FOURSQUARE_REDIRECT_URL
-  }
-});
+
+const stripe = require('stripe')('sk_test_4MT0bUTP1x2a32P9TpkxuXQi');
+
+//pricing table:
+var prices = require('../config/options.json');
 
 /**
  * GET /api
@@ -64,6 +61,8 @@ exports.getFacebook = (req, res, next) => {
   });
 };
 
+
+
 /**
  * GET /api/scraping
  * Web scraping example using Cheerio library.
@@ -86,7 +85,7 @@ exports.getScraping = (req, res) => {
  * GET /api/github
  * GitHub API Example.
  */
-exports.getGithub = (req, res, next) => {
+exports.getGithub = function(req, res, next) {
   const token = req.user.tokens.find(token => token.kind === 'github');
   const github = new Github({ token: token.accessToken });
   const repo = github.getRepo('sahat', 'satellizer');
@@ -98,6 +97,57 @@ exports.getGithub = (req, res, next) => {
     });
   });
 };
+
+
+
+/* Charge through Stripe */
+exports.getProduct=function(req, res, next) {
+  var stripeToken = req.body.stripeToken;
+  var charge = stripe.charges.create({
+    amount: 0,
+    currency: "usd",
+    source: stripeToken,
+    description: "Example charge"
+  }, function(err, charge) {
+    if (err && err.type === 'StripeCardError') {
+      // The card has been declined
+    }
+  });
+
+  res.status(200);
+  res.header('Content-type', 'application/json');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
+  res.send(JSON.stringify(charge));
+};
+
+/* GET price. */
+exports.getPrice = function(req, res, next) {
+
+  res.header('Content-type', 'application/json');
+
+  var priceObject = {
+    "description": "",
+    "price": 0,
+    "title": "",
+    "options": {}
+  };
+
+  var product = req.params.product;
+
+  if (product && prices[product]) {
+    res.status(200);
+    res.header('Content-type', 'application/json');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
+    res.send(JSON.stringify(prices[product]));
+  } else {
+    res.status(500);
+    res.send('{"error":"product not found"}');
+  }
+
+};
+
 
 
 /**
