@@ -40,6 +40,8 @@ order to keep the app ready to use at all times.
 You need [Node.js](http://nodejs.org/download/) and
 [MongoDB](http://www.mongodb.org/downloads) installed and running.
 
+You need PYTHON for bcrypt.  Make sure it is installed.
+
 We use [`bcrypt`](https://github.com/ncb000gt/node.bcrypt.js) for hashing
 secrets. If you have issues during installation related to `bcrypt` then [refer
 to this wiki
@@ -63,7 +65,7 @@ $ npm install
 First you need to setup your config file.
 
 ```bash
-$ mv ./config.example.js ./config.js #set mongodb and email credentials
+$ mv ./config.js ./config.js #set mongodb and email credentials
 ```
 
 Next, you need a few records in the database to start using the user system.
