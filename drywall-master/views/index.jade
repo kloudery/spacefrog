@@ -16,6 +16,310 @@ block body
       | &nbsp;or&nbsp;
       a.btn.btn-warning.btn-lg(href='/login/forgot/') Reset Your Password
     div.clearfix
+  // Container (Services Section)
+  #services.container-fluid.text-center
+      h2 Applications
+      h4 Click, configure, launch
+      br
+      .row
+          // Wordpress
+          .col-sm-4
+              a#wordpress(href='#')
+                  // data-toggle="modal" data-target="#wordpressmodal"
+                  span.fa.fa-wordpress.fa-4x
+                  h4 Wordpress
+          // Wordpress Modal
+          #wordpressmodal.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+              .modal-dialog.modal-lg(role='document')
+                  .modal-content
+                      .modal-header
+                          button.close(type='button', data-dismiss='modal', aria-label='Close')
+                              span(aria-hidden='true') ×
+                          h4#myModalLabel.modal-title Choose your pre-installed services
+                      .modal-body(data-fill='unFilled')
+                      .modal-footer
+                          button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                          button.btn.btn-success(type='button', data-toggle='modal', data-target='#stripePayment') Create your website
+          #stripePayment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+              .modal-dialog.modal-lg(role='document')
+                  .modal-content
+                      .modal-header
+                          button.close(type='button', data-dismiss='modal', aria-label='Close')
+                              span(aria-hidden='true') ×
+                          h4#myModalLabel.modal-title Fill your payment information
+                      .modal-body
+                          form#payment-form(action='http://localhost:3000/api/v1/purchase/wordpress', method='POST')
+                              span.payment-errors
+                              .form-group
+                                  label
+                                      span Card Number
+                                      input.form-control(type='text', size='50', data-stripe='number')
+                              .form-group
+                                  label
+                                      span Expiration (MM/YY)
+                                      span
+                                          input.form-control(type='text', size='2', data-stripe='exp_month')
+                                      span  /
+                                      input.form-control(type='text', size='2', data-stripe='exp_year')
+                              .form-group
+                                  label
+                                      span CVC
+                                      input.form-control(type='text', size='4', data-stripe='cvc')
+                              hr
+                              button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                              button.submit.btn.btn-success Submit Payment & create your website
+          // Drupal
+          .col-sm-4
+              a(href='#', data-toggle='modal', data-target='#drupalmodel')
+                  span.fa.fa-drupal.fa-4x
+                  h4 Drupal
+          // Drupal Modal
+          #drupalmodel.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+              .modal-dialog.modal-lg(role='document')
+                  .modal-content
+                      .modal-header
+                          button.close(type='button', data-dismiss='modal', aria-label='Close')
+                              span(aria-hidden='true') ×
+                          h4#myModalLabel.modal-title Choose your pre-installed services
+                      .modal-body
+                          .checkbox-inline
+                              label
+                                  input(type='checkbox', value='mailinglist')
+                                  |  Mailing list
+                          .checkbox-inline
+                              label
+                                  input(type='checkbox', value='contactform')
+                                  |  Contact Form
+                          .checkbox-inline
+                              label
+                                  input(type='checkbox', value='seoenhancer')
+                                  |  SEO Enhancer
+                      .modal-footer
+                          button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                          button.btn.btn-success(type='button') Create your website
+          .col-sm-4
+              span.glyphicon.glyphicon-lock.logo-small
+              h4 JOB DONE
+              p Lorem ipsum dolor sit amet..
+      br
+      br
+      .row
+          .col-sm-4
+              span.glyphicon.glyphicon-leaf.logo-small
+              h4 GREEN
+              p Lorem ipsum dolor sit amet..
+          .col-sm-4
+              span.glyphicon.glyphicon-certificate.logo-small
+              h4 CERTIFIED
+              p Lorem ipsum dolor sit amet..
+          .col-sm-4
+              span.glyphicon.glyphicon-wrench.logo-small
+              h4(style='color:#303030;') HARD WORK
+              p Lorem ipsum dolor sit amet..
+  // Pricing section
+  #pricing.container-fluid
+            .text-center
+                h2 Pricing
+                h4 Choose a payment plan that works for you
+            .row.slideanim
+                .col-sm-4.col-xs-12
+                    .panel.panel-default.text-center
+                        .panel-heading
+                            h1 Basic
+                        .panel-body
+                            p
+                                strong 1
+                                |  Website
+                            p
+                                strong 10 GB
+                                |  SSD
+                            p
+                                strong 30 GB
+                                |  Bandwidth
+                            p
+                                strong SFTP
+                                |  Access
+                            p
+                                strong Unlimited
+                                |  Email
+                        .panel-footer
+                            h3 $6
+                            h4 per month
+                            button.btn.btn-lg Sign Up
+                .col-sm-4.col-xs-12
+                    .panel.panel-default.text-center
+                        .panel-heading
+                            h1 Pro
+                        .panel-body
+                            p
+                                strong 2
+                                |  Webiste
+                            p
+                                strong 30 GB
+                                |  SSD
+                            p
+                                strong 50 GB
+                                |  Bandwidth
+                            p
+                                strong SSH/SFTP
+                                |  Access
+                            p
+                                strong Unlimited
+                                |  Email
+                        .panel-footer
+                            h3 $10
+                            h4 per month
+                            button.btn.btn-lg Sign Up
+                .col-sm-4.col-xs-12
+                    .panel.panel-default.text-center
+                        .panel-heading
+                            h1 Premium
+                        .panel-body
+                            p
+                                strong 5
+                                |  Website
+                            p
+                                strong 50 GB
+                                |  SSD
+                            p
+                                strong Unlimited
+                                |  Bandwidth
+                            p
+                                strong SSH/SFTP
+                                |  Access
+                            p
+                                strong Unlimited
+                                |  Email
+                        .panel-footer
+                            h3 $20
+                            h4 per month
+                            button.btn.btn-lg Sign Up
+  #googleMap(style='height:400px;width:100%;')
+        // Add Google Maps
+        script(src='http://maps.googleapis.com/maps/api/js')
+        script.
+            var myCenter = new google.maps.LatLng(44.3483, -106.6989);
+            function initialize() {
+                var mapProp = {
+                    center: myCenter,
+                    zoom: 12,
+                    scrollwheel: false,
+                    draggable: false,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                var marker = new google.maps.Marker({
+                    position: myCenter,
+                });
+                marker.setMap(map);
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        footer.container-fluid.text-center
+            a(href='#myPage', title='To Top')
+                span.glyphicon.glyphicon-chevron-up
+            p Powered by magic
+        script(src='/vendor/jquery/jquery.js?#{cacheBreaker}')
+        script.
+            $(document).ready(function() {
+                // Add smooth scrolling to all links in navbar + footer link
+                $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+                    // Make sure this.hash has a value before overriding default behavior
+                    if (this.hash !== "") {
+                        // Prevent default anchor click behavior
+                        event.preventDefault();
+                        // Store hash
+                        var hash = this.hash;
+                        // Using jQuery's animate() method to add smooth page scroll
+                        // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 900, function() {
+                            // Add hash (#) to URL when done scrolling (default click behavior)
+                            window.location.hash = hash;
+                        });
+                    } // End if
+                });
+                $(window).scroll(function() {
+                    $(".slideanim").each(function() {
+                        var pos = $(this).offset().top;
+                        var winTop = $(window).scrollTop();
+                        if (pos < winTop + 600) {
+                            $(this).addClass("slide");
+                        }
+                    });
+                });
+                // Pull price & dispay modal on wordpress click
+                var $wordpressModalBody = $('#wordpressmodal .modal-body');
+                var initialPrice = 0;
+                $("#wordpress").click(function() {
+                    $.get("http://localhost:3000/api/v1/pricing/wordpress", function(data) {
+                        var options = data.options;
+                        initialPrice = data.price;
+                        // Cache wordpress modal body selection
+                        // Check if modal-body is filled with data or not, if not, fill it
+                        if (($wordpressModalBody).attr('data-fill') === 'unFilled') {
+                            for (var key in options) {
+                                if (options.hasOwnProperty(key)) {
+                                    var modalData = '<div class="checkbox-inline"><label><input type="checkbox" data-price="' + options[key].price + '" value="' + key + '">' + options[key].name + '</label></div>';
+                                    $wordpressModalBody.append(modalData);
+                                }
+                            }
+                            $wordpressModalBody.attr('data-fill', 'filled');
+                        }
+                        var html = '<div class="checkbox-inline" id="wordpressPrice">' + data.price + '</div>';
+                        // Check if price is present, Avoid adding price multiple times when user click on wordpress icon.
+                        if (!($('#wordpressPrice').length)) {
+                            $("#wordpressmodal .modal-body").prepend(html);
+                        }
+                    });
+                    $('#wordpressmodal').modal();
+                });
+                // Update price when click on checkbox
+                $wordpressModalBody.on('click', function(ev) {
+                    if (ev.target.tagName !== 'LABEL') {
+                        var total = 0;
+                        $(this).find('input').each(function(i) {
+                            var $this = $(this);
+                            if ($this.prop('checked')) {
+                                total += parseFloat($this.attr('data-price'));
+                            }
+                        });
+                        total += initialPrice;
+                        $('#wordpressPrice').text(total);
+                    }
+                });
+            });
+        script(src='/vendor/jquery/jquery.bootstrap.wizard.min.js', type='text/javascript')
+        script(type="text/javascript", src="https://js.stripe.com/v2/")
+        script(type='text/javascript').
+            Stripe.setPublishableKey('pk_test_4MT0GF18tCIve3NiwrXEhIvK');
+            $(function() {
+                var $form = $('#payment-form');
+                $form.submit(function(event) {
+                    // Disable the submit button to prevent repeated clicks:
+                    $form.find('.submit').prop('disabled', true);
+                    // Request a token from Stripe:
+                    Stripe.card.createToken($form, stripeResponseHandler);
+                    // Prevent the form from being submitted:
+                    return false;
+                });
+                function stripeResponseHandler(status, response) {
+                    // Grab the form:
+                    var $form = $('#payment-form');
+                    if (response.error) { // Problem!
+                        // Show the errors on the form:
+                        $form.find('.payment-errors').text(response.error.message);
+                        $form.find('.submit').prop('disabled', false); // Re-enable submission
+                    } else { // Token was created!
+                        // Get the token ID:
+                        var token = response.id;
+                        // Insert the token ID into the form so it gets submitted to the server:
+                        $form.append($('<input type="hidden" name="stripeToken">').val(token));
+                        // Submit the form:
+                        $form.get(0).submit();
+                    }
+                }
+            });
   div.row
     div.col-sm-4
       div.panel.panel-default
