@@ -14,12 +14,14 @@ var config = require('./config'),
     helmet = require('helmet'),
     csrf = require('csurf');
 
+var api = require('./api.js');
+
 //create express app
 var app = express();
 
 //keep reference to config
 app.config = config;
-
+console.log("booting");
 //setup the web server
 app.server = http.createServer(app);
 
@@ -27,7 +29,8 @@ app.server = http.createServer(app);
 app.db = mongoose.createConnection(config.mongodb.uri);
 app.db.on('error', console.error.bind(console, 'mongoose connection error: '));
 app.db.once('open', function () {
-  //and... we have a data store
+  //Build out key items if needed
+
 });
 
 //config data models
@@ -38,6 +41,8 @@ app.disable('x-powered-by');
 app.set('port', config.port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+
 
 //middleware
 app.use(require('morgan')('dev'));
@@ -76,11 +81,18 @@ app.locals.cacheBreaker = 'br34k-01';
 //setup passport
 require('./passport')(app, passport);
 
+
+// AJAX API, no login needed.  If we need login/userdata need to move inside routes.
+app.use('/api', require('./api.js'));
+
+
 //setup routes
 require('./routes')(app, passport);
 
 //custom (friendly) error handler
 app.use(require('./views/http/index').http500);
+
+
 
 //setup utilities
 app.utility = {};
