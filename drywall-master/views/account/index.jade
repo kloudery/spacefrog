@@ -8,6 +8,45 @@ block neck
 
 block feet
   script(src='/views/account/index.min.js?#{cacheBreaker}')
+  script(src='/vendor/jquery/jquery.js')
+  script(src='/vendor/bootstrap/js/modal.js')
+  script.
+    $(function() {
+      // Pull price & dispay modal on wordpress click
+      $("#upgrade").click(function() {
+          $('#wordpressmodal').modal();
+      });
+    });
+  script(type="text/javascript", src="https://js.stripe.com/v2/")
+  script(type='text/javascript').
+      Stripe.setPublishableKey('pk_test_4MT0GF18tCIve3NiwrXEhIvK');
+      $(function() {
+          var $form = $('#payment-form');
+          $form.submit(function(event) {
+              // Disable the submit button to prevent repeated clicks:
+              $form.find('.submit').prop('disabled', true);
+              // Request a token from Stripe:
+              Stripe.card.createToken($form, stripeResponseHandler);
+              // Prevent the form from being submitted:
+              return false;
+          });
+          function stripeResponseHandler(status, response) {
+              // Grab the form:
+              var $form = $('#payment-form');
+              if (response.error) { // Problem!
+                  // Show the errors on the form:
+                  $form.find('.payment-errors').text(response.error.message);
+                  $form.find('.submit').prop('disabled', false); // Re-enable submission
+              } else { // Token was created!
+                  // Get the token ID:
+                  var token = response.id;
+                  // Insert the token ID into the form so it gets submitted to the server:
+                  $form.append($('<input type="hidden" name="stripeToken">').val(token));
+                  // Submit the form:
+                  $form.get(0).submit();
+              }
+          }
+      });
 
 block body
   div.row
@@ -44,3 +83,113 @@ block body
       div.page-header
         h1 Go Faster Everyday
       i.fa.fa-dashboard.super-awesome
+  #wordpressmodal.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+              .modal-dialog.modal-lg(role='document')
+                  .modal-content
+                      .modal-header
+                          button.close(type='button', data-dismiss='modal', aria-label='Close')
+                              span(aria-hidden='true') ×
+                          h4#myModalLabel.modal-title.text-center Choose your payment plan
+                      .modal-body
+                        #pricing.container-fluid
+                          .row.slideanim
+                              .col-sm-4.col-xs-12
+                                  .panel.panel-default.text-center
+                                      .panel-heading
+                                          h1 Basic
+                                      .panel-body
+                                          p
+                                              strong 1
+                                              |  Website
+                                          p
+                                              strong 10 GB
+                                              |  SSD
+                                          p
+                                              strong 30 GB
+                                              |  Bandwidth
+                                          p
+                                              strong SFTP
+                                              |  Access
+                                          p
+                                              strong Unlimited
+                                              |  Email
+                                      .panel-footer
+                                          h3 $6
+                                          h4 per month
+                                          button.btn.btn-success(type='button', data-toggle='modal', data-target='#stripePayment') Upgrade
+                              .col-sm-4.col-xs-12
+                                  .panel.panel-default.text-center
+                                      .panel-heading
+                                          h1 Pro
+                                      .panel-body
+                                          p
+                                              strong 2
+                                              |  Webiste
+                                          p
+                                              strong 30 GB
+                                              |  SSD
+                                          p
+                                              strong 50 GB
+                                              |  Bandwidth
+                                          p
+                                              strong SSH/SFTP
+                                              |  Access
+                                          p
+                                              strong Unlimited
+                                              |  Email
+                                      .panel-footer
+                                          h3 $10
+                                          h4 per month
+                                          button.btn.btn-success(type='button', data-toggle='modal', data-target='#stripePayment') Upgrade
+                              .col-sm-4.col-xs-12
+                                  .panel.panel-default.text-center
+                                      .panel-heading
+                                          h1 Premium
+                                      .panel-body
+                                          p
+                                              strong 5
+                                              |  Website
+                                          p
+                                              strong 50 GB
+                                              |  SSD
+                                          p
+                                              strong Unlimited
+                                              |  Bandwidth
+                                          p
+                                              strong SSH/SFTP
+                                              |  Access
+                                          p
+                                              strong Unlimited
+                                              |  Email
+                                      .panel-footer
+                                          h3 $20
+                                          h4 per month
+                                          button.btn.btn-success(type='button', data-toggle='modal', data-target='#stripePayment') Upgrade
+  #stripePayment.modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+      .modal-dialog.modal-lg(role='document')
+          .modal-content
+              .modal-header
+                  button.close(type='button', data-dismiss='modal', aria-label='Close')
+                      span(aria-hidden='true') ×
+                  h4#myModalLabel.modal-title Fill your payment information
+              .modal-body
+                  form#payment-form(action='http://localhost:3000/api/v1/purchase/wordpress', method='POST')
+                      span.payment-errors
+                      .form-group
+                          label
+                              span Card Number
+                              input.form-control(type='text', size='50', data-stripe='number')
+                      .form-group
+                          label
+                              span Expiration (MM/YY)
+                              span
+                                  input.form-control(type='text', size='2', data-stripe='exp_month')
+                              span  /
+                              input.form-control(type='text', size='2', data-stripe='exp_year')
+                      .form-group
+                          label
+                              span CVC
+                              input.form-control(type='text', size='4', data-stripe='cvc')
+                      hr
+                      button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                      button.submit.btn.btn-success Submit Payment & create your website
