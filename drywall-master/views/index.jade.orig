@@ -188,9 +188,15 @@ block body
                             p
                                 strong Container based, auto-scaling
                         .panel-footer
-                            h3 Varies
+<<<<<<< HEAD
+                            h3 $20
+                            h4 per month
                             button.btn.btn-lg
                               a(href='/signup/') Sign Up
+=======
+                            h3 Varies
+                            button.btn.btn-lg Sign Up
+>>>>>>> 735ed05de26f16ce3fa42aef6f403525113684c9
   #googleMap(style='height:400px;width:100%;')
         // Add Google Maps
         script(src='http://maps.googleapis.com/maps/api/js')
