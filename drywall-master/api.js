@@ -6,11 +6,10 @@ var stripe = require('stripe')('sk_test_4MT0bUTP1x2a32P9TpkxuXQi');
 /* Charge through Stripe */
 router.get('/v1/purchase/:product', function(req, res, next) {
     var stripeToken = req.body.stripeToken;
-    var charge = stripe.charges.create({
-        amount: 0,
-        currency: "usd",
+    stripe.customers.create({
         source: stripeToken,
-        description: "Example charge"
+        plan: 'standard-app',
+        email: ''               // Dont know how to get yet
     }, function(err, charge) {
         if (err && err.type === 'StripeCardError') {
             // The card has been declined
