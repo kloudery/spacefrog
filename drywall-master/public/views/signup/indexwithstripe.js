@@ -39,7 +39,7 @@
       var $form = this.$('#payment-form');
       // Disable the submit button to prevent repeated clicks
       $form.find('button').prop('disabled', true);
-      Stripe.createToken($form, this.stripeResponseHandler);
+      Stripe.card.createToken($form, this.stripeResponseHandler.bind(this));
       // Prevent the form from submitting with the default action
     },  // createStripeToken
 

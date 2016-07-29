@@ -1,4 +1,5 @@
 'use strict';
+var stripe = require('stripe')('sk_test_4MT0bUTP1x2a32P9TpkxuXQi');
 
 exports.init = function(req, res){
   if (req.isAuthenticated()) {
@@ -75,22 +76,48 @@ exports.signup = function(req, res){
     });
   });
 
+  // Create user & save stripe payment info
   workflow.on('createUser', function() {
     req.app.db.models.User.encryptPassword(req.body.password, function(err, hash) {
       if (err) {
         return workflow.emit('exception', err);
       }
+        var fieldsToSet;
+        var stripeToken = req.body.stripeToken;
+        if(!stripeToken) {
+            fieldsToSet = {
+                isActive: 'yes',
+                username: req.body.username,
+                email: req.body.email.toLowerCase(),
+                password: hash,
+                search: [
+                    req.body.username,
+                    req.body.email
+                ]
+            };
+        } else {
+            fieldsToSet = {
+                isActive: 'yes',
+                username: req.body.username,
+                email: req.body.email.toLowerCase(),
+                password: hash,
+                stripeToken: req.body.stripeToken,
+                search: [
+                    req.body.username,
+                    req.body.email
+                ]
+            };
+            stripe.customers.create({
+                source: stripeToken,
+                plan: 'standard-app',
+                email: req.body.email
+            }, function(err, charge) {
+                if (err && err.type === 'StripeCardError') {
+                    // The card has been declined
+                }
+            });
+        }
 
-      var fieldsToSet = {
-        isActive: 'yes',
-        username: req.body.username,
-        email: req.body.email.toLowerCase(),
-        password: hash,
-        search: [
-          req.body.username,
-          req.body.email
-        ]
-      };
       req.app.db.models.User.create(fieldsToSet, function(err, user) {
         if (err) {
           return workflow.emit('exception', err);
