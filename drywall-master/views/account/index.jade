@@ -67,7 +67,11 @@ block body
     div.col-sm-6
       div.page-header
         h1 New Application
-
+      each app in apps
+        .col-sm-4
+            a(id='#{app.name}')(href='#')
+                span.fa(class='#{app.icon}').fa-4x
+                h4 #{app.name}
     div.col-sm-6.special
       div.page-header
         h1 Visualizer here

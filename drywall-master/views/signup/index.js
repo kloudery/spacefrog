@@ -114,6 +114,7 @@ exports.signup = function(req, res){
             }, function(err, charge) {
                 if (err && err.type === 'StripeCardError') {
                     // The card has been declined
+                  res.json({error: "The card has been declined"});
                 }
             });
         }
