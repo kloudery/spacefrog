@@ -1,5 +1,0 @@
-{
-  "_documentation":"https://www.namecheap.com/support/api/intro.aspx",
-  "production": "https://api.namecheap.com/xml.response",
-  "development": "https://api.sandbox.namecheap.com/xml.response"
-}
