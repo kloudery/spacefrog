@@ -10,14 +10,8 @@ block neck
 block feet
   script(src='/views/account/index.min.js?#{cacheBreaker}')
   script(src='/vendor/jquery/jquery.js')
+  script(src='/vendor/jquery.cookie/jquery.cookie.js')
   script(src='/vendor/bootstrap/js/modal.js')
-  script.
-    $(function() {
-      // Pull price & dispay modal on wordpress click
-      $("#upgrade").click(function() {
-          $('#wordpressmodal').modal();
-      });
-    });
   script(type="text/javascript", src="https://js.stripe.com/v2/")
   script(type='text/javascript').
       Stripe.setPublishableKey('pk_test_4MT0GF18tCIve3NiwrXEhIvK');
@@ -48,7 +42,75 @@ block feet
               }
           }
       });
-
+  script(type='text/javascript').
+      $(function() {
+          var initialPrice = 0;
+          var app;
+          var appList = !{JSON.stringify(apps)};
+          var url;
+          var appNameRun;
+          for (var index in appList) {
+            app = appList[index];
+            // Avoid closure issues by creating an IIFE
+            (function(app) {
+                // Pull price & dispay modal on app click
+                var $appModalBody = $('#' + app["modalName"] + ' .modal-body');
+                $('#' + app['name']).on('click', function() {
+                   appNameRun = app['name'];
+                   console.log(appNameRun);
+                   url = "http://localhost:3000/api/v1/pricing/" + app['name'];
+                   $.get(url, function(data) {
+                       var options = data.options;
+                       initialPrice = data.price;
+                       // Cache app modal body selection
+                       // Check if modal-body is filled with data or not, if not, fill it
+                       if ($appModalBody.attr('data-fill') === 'unFilled') {
+                           for (var key in options) {
+                                if (options.hasOwnProperty(key)) {
+                                   console.log(key);
+                                   var modalData = '<div class="checkbox-inline"><label><input class="services" type="checkbox" data-price="' + options[key].price + '" value="' + key + '">' + options[key].name + '</label></div>';
+                                   $appModalBody.append(modalData);
+                                }
+                           }
+                           $appModalBody.attr('data-fill', 'filled');
+                       }
+                       var html = '<div class="checkbox-inline" id="' + app['price'] + '">' + data.price + '</div>';
+                       // Check if price is present, Avoid adding price multiple times when user click on app icon.
+                       if (!($('#' + app["price"]).length)) {
+                            $appModalBody.prepend(html);
+                       }
+                   });
+                    $('#' + app["modalName"]).modal();
+                });
+               // Update price when click on checkbox
+               $appModalBody.on('click', function(ev) {
+                    if (ev.target.tagName !== 'LABEL') {
+                       var total = 0;
+                       $(this).find('input').each(function(i) {
+                           var $this = $(this);
+                           if ($this.prop('checked')) {
+                                total += parseFloat($this.attr('data-price'));
+                            }
+                        });
+                        total += initialPrice;
+                        $('#' + app["price"]).text(total);
+                    }
+                });
+            })(app);
+           }
+          $('#runContainer').on('click', function() {
+              var appInfo = {
+                appName: appNameRun,
+                services: []
+              };
+              $(".services").each(function() {
+                  console.log($(this).attr('value'));
+                  if($(this).prop('checked'))
+                    appInfo.services.push($(this).attr('value'));
+              });
+              console.log(appInfo);
+          });
+      });
 block body
   div.row
     div.col-sm-6
@@ -73,6 +135,17 @@ block body
             a(id='#{app.name}')(href='#')
                 span.fa(class='#{app.icon}').fa-4x
                 h4 #{app.name}
+            div(id='#{app.modalName}').modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
+                .modal-dialog.modal-lg(role='document')
+                    .modal-content
+                        .modal-header
+                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                span(aria-hidden='true') ×
+                            h3#myModalLabel.modal-title <strong>Choose your pre-installed services</strong>
+                        .modal-body(data-fill='unFilled')
+                        .modal-footer
+                            button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
+                            button.btn.btn-success(type='button', data-toggle='modal', id='runContainer') Create your website
     div.col-sm-6.special
       div.page-header
         h1 Visualizer here

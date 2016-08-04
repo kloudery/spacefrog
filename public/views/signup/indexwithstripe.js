@@ -12,7 +12,9 @@
       errfor: {},
       username: '',
       email: '',
-      password: ''
+      password: '',
+      stripeToken: '',
+      paymentPlan: ''
     }
   });
 
@@ -72,7 +74,8 @@
         username: this.$el.find('[name="username"]').val(),
         email: this.$el.find('[name="email"]').val(),
         password: this.$el.find('[name="password"]').val(),
-        stripeToken: this.$el.find('[name="stripeToken"]').val()
+        stripeToken: this.$el.find('[name="stripeToken"]').val(),
+        paymentPlan: this.$el.find('#paymentPlan option:selected').text()
       },{
         success: function(model, response) {
           if (response.success) {

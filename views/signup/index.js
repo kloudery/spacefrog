@@ -102,6 +102,7 @@ exports.signup = function(req, res){
                 email: req.body.email.toLowerCase(),
                 password: hash,
                 stripeToken: req.body.stripeToken,
+                paymentPlan: req.body.paymentPlan,
                 search: [
                     req.body.username,
                     req.body.email
@@ -109,7 +110,7 @@ exports.signup = function(req, res){
             };
             stripe.customers.create({
                 source: stripeToken,
-                plan: 'standard-app',
+                plan: req.body.paymentPlan,
                 email: req.body.email
             }, function(err, charge) {
                 if (err && err.type === 'StripeCardError') {

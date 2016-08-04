@@ -31,6 +31,7 @@ block body
                     a(id='#{app.name}')(href='#')
                         span.fa(class='#{app.icon}').fa-4x
                         h4 #{app.name}
+                //
                     div(id='#{app.modalName}').modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel')
                         .modal-dialog.modal-lg(role='document')
                             .modal-content
@@ -83,14 +84,26 @@ block body
                                             .form-group
                                                 label
                                                     span Expiration (MM/YY)
-                                                    span
-                                                        input.form-control(type='text', size='2', data-stripe='exp_month')
-                                                    span  /
-                                                    input.form-control(type='text', size='2', data-stripe='exp_year')
+                                                    .col-xs-8.col-xs-offset-2
+                                                        .col-xs-5
+                                                            span
+                                                                input.form-control(type='text', size='2', data-stripe='exp_month')
+                                                        .col-xs-2
+                                                            span  /
+                                                        .col-xs-5
+                                                            span
+                                                                input.form-control(type='text', size='2', data-stripe='exp_year')
                                             .form-group
                                                 label
                                                     span CVC
                                                     input.form-control(type='text', size='4', data-stripe='cvc')
+                                            .form-group
+                                                label
+                                                    span Choose your payment Plan
+                                                    select#paymentPlan.form-control
+                                                        option Basic
+                                                        option Advanced
+                                                        option Custom
                                         .form-group.col-xs-12
                                             button.btn.btn-danger(type='button', data-dismiss='modal') Cancel
                                             button.submit.btn.btn-primary.btn-signup Create my account
@@ -202,10 +215,18 @@ block body
                     }
                 });
             });
-            var initialPrice = 0;
+            // var initialPrice = 0;
             var app;
             var appList = !{JSON.stringify(apps)};
-            console.log(appList);
+            for (var index in appList) {
+                app = appList[index];
+                (function(app) {
+                    $('#' + app['name']).on('click', function() {
+                        $('#stripePayment').modal();
+                    });
+                })(app);
+            }
+            /*
             var url;
             for (var index in appList) {
                 app = appList[index];
@@ -223,6 +244,7 @@ block body
                             if ($appModalBody.attr('data-fill') === 'unFilled') {
                                 for (var key in options) {
                                     if (options.hasOwnProperty(key)) {
+                                        console.log(key);
                                         var modalData = '<div class="checkbox-inline"><label><input type="checkbox" data-price="' + options[key].price + '" value="' + key + '">' + options[key].name + '</label></div>';
                                         $appModalBody.append(modalData);
                                     }
@@ -252,7 +274,7 @@ block body
                         }
                     });
                 })(app);
-            }
+            } */
         });
     script(src='/vendor/jquery/jquery.bootstrap.wizard.min.js', type='text/javascript')
     br
